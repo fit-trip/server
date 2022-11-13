@@ -19,16 +19,17 @@ public class KakaoPlaceRecommendService implements PlaceRecommendService {
 
     @Override
     public Mono<KakaoPlaceRecommendResponseListDto> recommend(PlaceRecommendRequestDto dto) {
+        KakaoPlaceRecommendRequestDto kDto = (KakaoPlaceRecommendRequestDto) dto;
+
         WebClient webClient = getWebClient("https://dapi.kakao.com");
         String uri = "/v2/local/search/category.json";
 
-
         // parameters
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.set("category_group_code", ((KakaoPlaceRecommendRequestDto) dto).getCategory());
-        params.set("y", ((KakaoPlaceRecommendRequestDto) dto).getY());
-        params.set("x", ((KakaoPlaceRecommendRequestDto) dto).getX());
-        params.set("radius", ((KakaoPlaceRecommendRequestDto) dto).getRadius().toString());
+        params.set("category_group_code", kDto.getCategory());
+        params.set("y", kDto.getY());
+        params.set("x", kDto.getX());
+        params.set("radius", kDto.getRadius().toString());
 
         return webClient
                 .get()
