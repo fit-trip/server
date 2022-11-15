@@ -1,0 +1,29 @@
+kakao:
+  rest-key: 1f5fc33109892628ac4b9609c276f2d6
+
+naver:
+  id: 8jj40ag7jz
+  rest-key: i2mfjAk5FYTmHk9KqyjcIkzAu5enRAIf36vXxwV9
+
+springdoc:
+  swagger-ui:
+    path: knu-swagger.html
+    operations-sorter: method
+  #  version: v1
+  paths-to-match: /api/**
+
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/jpashop
+    username: sa
+    password:
+  driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+    ddl-auto: create
+  properties:
+    hibernate:
+
+
+logging.level:
+  org.hibernate.SQL: debug
