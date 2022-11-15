@@ -5,20 +5,14 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Getter @Setter
+@Getter
+@Setter
 @MappedSuperclass
 public abstract class RouteInfo {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer scheduleId;
+    @EmbeddedId
+    RouteInfoId routeInfoId;
 
     @Column
     private Integer order;
-
-    @Column
-    private Integer startLocationId;
-
-    @Column
-    private Integer endLocationId;
 }
