@@ -8,6 +8,8 @@ public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ManyToOne
+    @JoinColumn(name = "routeInfoId")
     Integer id;
 
     @Column(name = "name")

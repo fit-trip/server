@@ -15,12 +15,21 @@ public class Schedule {
     @Column(name = "name")
     String name;
 
-    @Column(name = "userId")
-    Integer userId;
+    @ManyToOne
+    @JoinColumn(name = "Id")
+    User user;
 
     @Column(name = "totalTime")
     Integer totalTime;
 
     @Column(name = "totalMoney")
     Integer totalMoney;
+
+    @ManyToOne
+    @JoinColumn(name = "routeInfoId")
+    RouteInfo routeInfoPerMoney;
+
+    @ManyToOne
+    @JoinColumn(name = "routeInfoId")
+    RouteInfo routeInfoPerTime;
 }

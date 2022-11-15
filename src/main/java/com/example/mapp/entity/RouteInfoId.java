@@ -6,19 +6,28 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
 @Data
 @Embeddable
 public class RouteInfoId implements Serializable {
 
-    @Column(name = "scheduleId")
-    private Integer scheduleId;
 
-    @Column(name = "startLocationId")
-    private Integer startLocationId;
+//    @Column(name = "scheduleId")
+    @ManyToOne
+    @JoinColumn(name = "id")
+    private Schedule scheduleId;
 
-    @Column(name = "endLocationId")
-    private Integer endLocationId;
+//    @Column(name = "startLocationId")
+    @ManyToOne
+    @JoinColumn(name = "id")
+    private Location startLocationId;
+
+//    @Column(name = "endLocationId")
+    @ManyToOne
+    @JoinColumn(name = "id")
+    private Location endLocationId;
 
 }
