@@ -1,5 +1,8 @@
 package com.example.mapp.entity;
 
-public class RouteInfoPerTime implements RouteInfo{
+import javax.persistence.Entity;
 
+@Entity
+public class RouteInfoPerTime extends RouteInfo{
+    Integer time;
 }

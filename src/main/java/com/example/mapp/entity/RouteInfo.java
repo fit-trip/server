@@ -1,8 +1,24 @@
 package com.example.mapp.entity;
 
-public interface RouteInfo {
-    Integer scheduleId = null;
-    Integer order = null;
-    Integer startLocationId = null;
-    Integer endLocationId = null;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+
+@Getter @Setter
+@MappedSuperclass
+public abstract class RouteInfo {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer scheduleId;
+
+    @Column
+    private Integer order;
+
+    @Column
+    private Integer startLocationId;
+
+    @Column
+    private Integer endLocationId;
 }

@@ -1,6 +1,5 @@
 package com.example.mapp.entity;
 
-public class RouteInfoPerMoney implements RouteInfo{
-
-
+public class RouteInfoPerMoney extends RouteInfo {
+    Integer money;
 }
