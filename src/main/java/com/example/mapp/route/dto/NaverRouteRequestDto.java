@@ -1,6 +1,6 @@
 package com.example.mapp.route.dto;
 
-import com.example.mapp.route.vo.Location;
+import com.example.mapp.route.vo.CoordinateVo;
 import java.io.Serializable;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -12,9 +12,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class NaverRouteRequestDto implements Serializable {
     @NotNull
-    private Location startLocation;
+    private CoordinateVo startLocation;
     @NotNull
-    private Location goalLocation;
+    private CoordinateVo goalLocation;
 
     public String getStartParam() {
         return startLocation.getX() + "," + startLocation.getY();

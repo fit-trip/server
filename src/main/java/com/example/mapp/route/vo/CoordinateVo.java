@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Builder
-public class Location {
+public class CoordinateVo {
     private String x;
     private String y;
 }

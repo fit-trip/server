@@ -12,8 +12,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class RouteInfoVo {
-    private Location from;
-    private Location to;
+    private CoordinateVo from;
+    private CoordinateVo to;
     private NaverRouteResponseDto info;
 
     @Override
