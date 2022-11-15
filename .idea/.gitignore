@@ -4,3 +4,6 @@
 
 jpa-buddy.xml
 misc.xml
+.gradle/
+.idea
+build/
