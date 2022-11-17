@@ -1,35 +1,34 @@
 package com.example.mapp.entity;
 
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
-@Getter @Setter
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Schedule {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    @GeneratedValue
+    private String id;
 
     @Column(name = "name")
-    String name;
-
-    @ManyToOne
-    @JoinColumn(name = "Id")
-    User user;
+    private String name;
 
     @Column(name = "totalTime")
-    Integer totalTime;
+    private Integer totalTime;
 
     @Column(name = "totalMoney")
-    Integer totalMoney;
+    private Integer totalMoney;
 
-    @ManyToOne
-    @JoinColumn(name = "routeInfoId")
-    RouteInfo routeInfoPerMoney;
-
-    @ManyToOne
-    @JoinColumn(name = "routeInfoId")
-    RouteInfo routeInfoPerTime;
+    @Builder
+    public Schedule(String id, String name, Integer totalTime, Integer totalMoney) {
+        this.id = id;
+        this.name = name;
+        this.totalTime = totalTime;
+        this.totalMoney = totalMoney;
+    }
 }

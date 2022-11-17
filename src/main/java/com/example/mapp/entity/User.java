@@ -1,13 +1,15 @@
 package com.example.mapp.entity;
 
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Getter
-@NoArgsConstructor
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
     @Id
@@ -19,4 +21,11 @@ public class User {
 
     @Column(nullable = false)
     String password;
+
+    @Builder
+    public User(Integer id, String name, String password) {
+        Id = id;
+        this.name = name;
+        this.password = password;
+    }
 }

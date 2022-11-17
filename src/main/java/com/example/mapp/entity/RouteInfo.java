@@ -6,13 +6,13 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Getter
-@Setter
 @MappedSuperclass
 public abstract class RouteInfo {
 
-    @EmbeddedId
-    RouteInfoId routeInfoId;
-
-    @Column
+    @Column(name = "orders")
     private Integer order;
+
+    public void updateOrder(int order) {
+        this.order = order;
+    }
 }

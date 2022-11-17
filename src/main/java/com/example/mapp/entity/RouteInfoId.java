@@ -1,30 +1,26 @@
 package com.example.mapp.entity;
 
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.Builder;
 
 import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.io.Serializable;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-@Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
+@EqualsAndHashCode
 public class RouteInfoId implements Serializable {
 
+    private String scheduleId;
+    private String startLocationId;
+    private String endLocationId;
 
-//    @Column(name = "scheduleId")
-    @ManyToOne
-    @JoinColumn(name = "id")
-    private Schedule scheduleId;
-
-//    @Column(name = "startLocationId")
-    @ManyToOne
-    @JoinColumn(name = "id")
-    private Location startLocationId;
-
-//    @Column(name = "endLocationId")
-    @ManyToOne
-    @JoinColumn(name = "id")
-    private Location endLocationId;
-
+    @Builder
+    public RouteInfoId(String scheduleId, String startLocationId, String endLocationId) {
+        this.scheduleId = scheduleId;
+        this.startLocationId = startLocationId;
+        this.endLocationId = endLocationId;
+    }
 }
