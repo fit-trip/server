@@ -1,7 +1,7 @@
 package com.example.mapp.route.service;
 
 import com.example.mapp.route.OptRouteProcessor;
-import com.example.mapp.route.vo.Location;
+import com.example.mapp.route.vo.CoordinateVo;
 import com.example.mapp.route.dto.NaverRouteRequestDto;
 import com.example.mapp.route.dto.NaverRouteResponseDto;
 import com.example.mapp.route.vo.RouteInfoVo;
@@ -36,20 +36,20 @@ public class NaverRouteService implements RouteService{
                 .baseUrl(baseUrl).build();
     }
 
-    public RouteInfoVo[][] route(List<Location> locations) {
+    public RouteInfoVo[][] route(List<CoordinateVo> locations) {
         RouteInfoVo[][] map = createRouteMap(locations);
         optRouteProcessor.calcOptRoute(map, locations.size());
         return map;
     }
 
 
-    private RouteInfoVo[][] createRouteMap(List<Location> locations) {
+    private RouteInfoVo[][] createRouteMap(List<CoordinateVo> locations) {
         RouteInfoVo[][] map = new RouteInfoVo[locations.size()][locations.size()];
 
         for (int i = 0; i < locations.size(); i++) {
             for (int j = i+1; j < locations.size(); j++) {
-                Location start = locations.get(i);
-                Location goal = locations.get(j);
+                CoordinateVo start = locations.get(i);
+                CoordinateVo goal = locations.get(j);
                 NaverRouteRequestDto routeRequest = createRouteRequest(start, goal);
                 RouteInfoVo routeInfo = getRouteInfo(routeRequest);
 
@@ -60,7 +60,7 @@ public class NaverRouteService implements RouteService{
 
         return map;
     }
-    private NaverRouteRequestDto createRouteRequest(Location start, Location goal) {
+    private NaverRouteRequestDto createRouteRequest(CoordinateVo start, CoordinateVo goal) {
         return NaverRouteRequestDto.builder()
                 .startLocation(start)
                 .goalLocation(goal)

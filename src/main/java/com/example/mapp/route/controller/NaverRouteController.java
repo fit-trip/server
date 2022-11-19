@@ -1,6 +1,6 @@
 package com.example.mapp.route.controller;
 
-import com.example.mapp.route.vo.Location;
+import com.example.mapp.route.vo.CoordinateVo;
 import com.example.mapp.route.service.NaverRouteService;
 import com.example.mapp.route.vo.RouteInfoVo;
 import java.util.List;
@@ -18,7 +18,7 @@ public class NaverRouteController {
     private final NaverRouteService naverRouteService;
 
     @PostMapping
-    public RouteInfoVo[][] route(@RequestBody List<Location> dto) {
+    public RouteInfoVo[][] route(@RequestBody List<CoordinateVo> dto) {
         return naverRouteService.route(dto);
     }
 }
