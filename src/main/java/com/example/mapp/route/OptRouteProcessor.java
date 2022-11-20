@@ -28,7 +28,7 @@ public class OptRouteProcessor {
             Arrays.fill(dp[i], INF);
         }
 
-        // 0번째 위치에서 출발
+        // 0번째 지점에서 출발
         int result = tsp(0, 1 << 0, map);
         System.out.println(result);
 
@@ -46,14 +46,13 @@ public class OptRouteProcessor {
 
         // resultRoute 값 확인
         for (int i = 0; i < N; i++) {
-            System.out.println(resultRoute[0][i].getFrom() + " -> " + resultRoute[0][i].getTo() + " : " + resultRoute[0][i].getInfo().getDistance());
+            System.out.println(resultRoute[0][i].getFrom() + " -> " + resultRoute[0][i].getTo() + " : " + resultRoute[0][i].getInfo().getDuration());
         }
 
         // resultRoute 반환
         return resultRoute;
 
-        // TODO: 거리가 아니라 시간과 비용을 고려하여 최적 경로 계산하기
-        // TODO: resultRoute[][]에서 from과 to 이어지도록 맞추기
+        // TODO: 시간 뿐만 아니라 비용을 고려하여 최적 경로 계산하기
         // TODO: 코드 정리
         // TODO: 반환 형태 상의 후 수정
 
@@ -62,8 +61,8 @@ public class OptRouteProcessor {
     public int tsp(int last, int visited, RouteInfoVo[][] map) {
         // 마지막 지점 -> 0번째 지점 사이에 경로 존재 시 경로 값 반환
         if (visited == VISITED_ALL) {
-            dp[last][visited] = map[last][0].getInfo().getDistance();
-            return map[last][0].getInfo().getDistance();
+            dp[last][visited] = map[last][0].getInfo().getDuration();
+            return map[last][0].getInfo().getDuration();
         }
 
         // DP 적용 -> DP 캐시 값이 존재한다면 last, visited에 대한 연산이 이미 계산된 적 있다는 뜻
@@ -77,8 +76,8 @@ public class OptRouteProcessor {
         for (int i = 0; i < N; i++) {
             // i번째 지점을 방문하지 않았다면, i번째 지점을 방문
             if (((visited & (1 << i)) == 0) && (map[last][i] != null)) {
-                if (tsp(i, visited | (1 << i), map) + map[last][i].getInfo().getDistance() < tmp) {
-                    tmp = tsp(i, visited | (1 << i), map) + map[last][i].getInfo().getDistance(); // 최솟값 업데이트
+                if (tsp(i, visited | (1 << i), map) + map[last][i].getInfo().getDuration() < tmp) {
+                    tmp = tsp(i, visited | (1 << i), map) + map[last][i].getInfo().getDuration(); // 최솟값 업데이트
                 }
             }
         }
@@ -98,7 +97,7 @@ public class OptRouteProcessor {
                 if ((masking & (1 << k)) != 0) continue;
 
                 if (dp[k][masking + (1 << k)] != INF) {
-                    if (distance - map[piv][k].getInfo().getDistance() == dp[k][masking + (1 << k)]) {
+                    if (distance - map[piv][k].getInfo().getDuration() == dp[k][masking + (1 << k)]) {
                         path.add(k);
                         distance = dp[k][masking + (1 << k)];
                         piv = k;
