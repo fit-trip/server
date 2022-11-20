@@ -38,8 +38,7 @@ public class NaverRouteService implements RouteService{
 
     public RouteInfoVo[][] route(List<CoordinateVo> locations) {
         RouteInfoVo[][] map = createRouteMap(locations);
-        optRouteProcessor.calcOptRoute(map, locations.size());
-        return map;
+        return optRouteProcessor.calcOptRoute(map, locations.size());
     }
 
 
