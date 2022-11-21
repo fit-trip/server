@@ -36,19 +36,18 @@ public class OptRouteProcessor {
         }
 
         // 지정한 기준들을 iteration하며, 최적 경로를 계산
-        int normIdx = 0;
-        for (String norm: norms) {
+        for (int normIdx = 0; normIdx < norms.length; normIdx++) {
             // DP 배열 초기화
             for (int i = 0; i < size; i++) {
                 Arrays.fill(dp[i], INF);
             }
 
             // 0번째 지점에서 출발
-            int result = tsp(0, 1, norm); // (1 << 0) == 1
+            int result = tsp(0, 1, norms[normIdx]); // (1 << 0) == 1
             System.out.println(result);
 
             // 최적 경로를 순서대로 구하기
-            ArrayList<Integer> path = calcPath(result, norm);
+            ArrayList<Integer> path = calcPath(result, norms[normIdx]);
             path.add(0, 0); // 시작지점 추가
             path.add(0); // 왕복 경로이므로 끝에도 시작지점 추가
             System.out.println(path);
@@ -60,10 +59,8 @@ public class OptRouteProcessor {
 
             // resultRoute 값 확인
             for (int i = 0; i < N; i++) {
-                System.out.println(resultRoute[0][i].getFrom() + " -> " + resultRoute[0][i].getTo() + " : " + resultRoute[0][i].getInfo().getCost(norm));
+                System.out.println(resultRoute[0][i].getFrom() + " -> " + resultRoute[0][i].getTo() + " : " + resultRoute[0][i].getInfo().getCost(norms[normIdx]));
             }
-
-            normIdx++;
         }
 
 
