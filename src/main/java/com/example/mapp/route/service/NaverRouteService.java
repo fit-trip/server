@@ -38,8 +38,7 @@ public class NaverRouteService implements RouteService{
 
     public RouteInfoVo[][] route(List<CoordinateVo> locations) {
         RouteInfoVo[][] map = createRouteMap(locations);
-        optRouteProcessor.calcOptRoute(map, locations.size());
-        return map;
+        return optRouteProcessor.calcOptRoute(map, locations.size());
     }
 
 
@@ -52,9 +51,11 @@ public class NaverRouteService implements RouteService{
                 CoordinateVo goal = locations.get(j);
                 NaverRouteRequestDto routeRequest = createRouteRequest(start, goal);
                 RouteInfoVo routeInfo = getRouteInfo(routeRequest);
+                RouteInfoVo routeInfoRev = new RouteInfoVo(goal, start, routeInfo.getInfo());
 
                 map[i][j] = routeInfo;
-                map[j][i] = routeInfo;
+                // 시작 지점과 도착 지점 의미 유지를 위해 routeInfo의 from, to를 swap해서 저장
+                map[j][i] = routeInfoRev;
             }
         }
 
