@@ -8,14 +8,13 @@ import java.util.Arrays;
 
 @Component
 public class OptRouteProcessor {
-    static int N;
-    static RouteInfoVo[][] data; // data[i][j] = i번째 지점에서 j번째 지점으로 가는 route 정보
-    static int[][] dp; // dp[N][visited]: N번 -> visited에서 방문 X한 지점 -> 0번 지점(시작 지점) 경로 저장한다고 생각하면 쉬움
-    static final int INF = Integer.MAX_VALUE;
+    private static final int INF = Integer.MAX_VALUE;
+    static final String[] norms = {"Duration", "Fare"}; // 비용 정보를 계산하는 기준
 
-    static final String[] norms = {"duration", "Fare"}; // 비용 정보를 계산하는 기준
-
-    static int VISITED_ALL = 0;
+    private int N;
+    private RouteInfoVo[][] data; // data[i][j] = i번째 지점에서 j번째 지점으로 가는 route 정보
+    private int[][] dp; // dp[N][visited]: N번 -> visited에서 방문 X한 지점 -> 0번 지점(시작 지점) 경로 저장한다고 생각하면 쉬움
+    private int VISITED_ALL = 0;
 
     public RouteInfoVo[][] calcOptRoute(RouteInfoVo[][] map, int size) {
         // map: 2차원 배열로, 각 위치간의 비용 정보를 담고 있음 (양방향 비용 동일)
@@ -44,22 +43,15 @@ public class OptRouteProcessor {
 
             // 0번째 지점에서 출발
             int result = tsp(0, 1, norms[normIdx]); // (1 << 0) == 1
-            System.out.println(result);
 
             // 최적 경로를 순서대로 구하기
             ArrayList<Integer> path = calcPath(result, norms[normIdx]);
             path.add(0, 0); // 시작지점 추가
             path.add(0); // 왕복 경로이므로 끝에도 시작지점 추가
-            System.out.println(path);
 
             // 구한 최적 경로 리스트를 기반으로 resultRoute에 값 저장
             for (int i = 0; i < N; i++) {
                 resultRoute[normIdx][i] = map[path.get(i)][path.get(i + 1)];
-            }
-
-            // resultRoute 값 확인
-            for (int i = 0; i < N; i++) {
-                System.out.println(resultRoute[0][i].getFrom() + " -> " + resultRoute[0][i].getTo() + " : " + resultRoute[0][i].getInfo().getCost(norms[normIdx]));
             }
         }
 
@@ -71,7 +63,7 @@ public class OptRouteProcessor {
 
     }
 
-    public int tsp(int last, int visited, String norm) {
+    private int tsp(int last, int visited, String norm) {
         // 마지막 지점 -> 0번째 지점 사이에 경로 존재 시 경로 값 반환
         if (visited == VISITED_ALL) {
             dp[last][visited] = data[last][0].getInfo().getCost(norm);
@@ -99,7 +91,7 @@ public class OptRouteProcessor {
         return tmp;
     }
 
-    public ArrayList<Integer> calcPath(int cost, String norm) {
+    private ArrayList<Integer> calcPath(int cost, String norm) {
         ArrayList<Integer> path = new ArrayList<>();
         int piv = 0;
         int masking = 1;
@@ -122,6 +114,5 @@ public class OptRouteProcessor {
         }
 
         return path;
-
     }
 }

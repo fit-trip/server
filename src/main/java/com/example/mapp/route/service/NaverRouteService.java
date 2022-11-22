@@ -18,8 +18,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Service
 @RequiredArgsConstructor
 public class NaverRouteService implements RouteService{
-    private final OptRouteProcessor optRouteProcessor;
-
     private static final String ID_HEADER = "X-NCP-APIGW-API-KEY-ID";
     private static final String KEY_HEADER = "X-NCP-APIGW-API-KEY";
     @Value("${naver.id}")
@@ -37,6 +35,7 @@ public class NaverRouteService implements RouteService{
     }
 
     public RouteInfoVo[][] route(List<CoordinateVo> locations) {
+        OptRouteProcessor optRouteProcessor = new OptRouteProcessor();
         RouteInfoVo[][] map = createRouteMap(locations);
         return optRouteProcessor.calcOptRoute(map, locations.size());
     }
