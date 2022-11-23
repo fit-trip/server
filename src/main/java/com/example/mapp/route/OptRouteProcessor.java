@@ -9,7 +9,7 @@ import java.util.Arrays;
 @Component
 public class OptRouteProcessor {
     private static final int INF = Integer.MAX_VALUE;
-    static final String[] norms = {"Duration", "Fare"}; // 비용 정보를 계산하는 기준
+    public static final String[] norms = {"Duration", "Fare"}; // 비용 정보를 계산하는 기준
 
     private int N;
     private RouteInfoVo[][] data; // data[i][j] = i번째 지점에서 j번째 지점으로 가는 route 정보
