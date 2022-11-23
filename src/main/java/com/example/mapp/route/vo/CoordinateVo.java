@@ -8,6 +8,7 @@ import lombok.Data;
 @AllArgsConstructor
 @Builder
 public class CoordinateVo {
-    private String x;
-    private String y;
+    private Double x;
+    private Double y;
+    private String name;
 }
