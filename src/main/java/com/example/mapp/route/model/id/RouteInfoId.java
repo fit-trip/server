@@ -13,14 +13,12 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class RouteInfoId implements Serializable {
 
-    private String scheduleId;
-    private String startLocationId;
-    private String endLocationId;
+    private Integer scheduleId;
+    private LocationId locationId;
 
     @Builder
-    public RouteInfoId(String scheduleId, String startLocationId, String endLocationId) {
+    public RouteInfoId(Integer scheduleId, LocationId locationId) {
         this.scheduleId = scheduleId;
-        this.startLocationId = startLocationId;
-        this.endLocationId = endLocationId;
+        this.locationId = locationId;
     }
 }

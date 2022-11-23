@@ -1,5 +1,6 @@
 package com.example.mapp.route.model;
 
+import com.example.mapp.route.model.id.LocationId;
 import javax.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -12,23 +13,15 @@ import lombok.NoArgsConstructor;
 @Table(name = "Location")
 public class Location {
 
-    @Id @GeneratedValue
-    String id;
+    @EmbeddedId
+    private LocationId id;
 
     @Column(name = "name")
-    String name;
-
-    @Column(name = "x")
-    Double x;
-
-    @Column(name = "y")
-    Double y;
+    private String name;
 
     @Builder
-    public Location(String id, String name, Double x, Double y) {
+    public Location(LocationId id, String name, Double x, Double y) {
         this.id = id;
         this.name = name;
-        this.x = x;
-        this.y = y;
     }
 }
