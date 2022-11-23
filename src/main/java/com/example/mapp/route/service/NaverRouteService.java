@@ -1,11 +1,11 @@
 package com.example.mapp.route.service;
 
 import com.example.mapp.route.OptRouteProcessor;
+import com.example.mapp.route.dto.RouteInfoDto;
 import com.example.mapp.route.vo.CoordinateVo;
 import com.example.mapp.route.dto.NaverRouteRequestDto;
 import com.example.mapp.route.dto.NaverRouteResponseDto;
 import com.example.mapp.route.vo.RouteInfoVo;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -34,10 +34,14 @@ public class NaverRouteService implements RouteService{
                 .baseUrl(baseUrl).build();
     }
 
-    public RouteInfoVo[][] route(List<CoordinateVo> locations) {
+    public RouteInfoDto route(List<CoordinateVo> coordinates) {
         OptRouteProcessor optRouteProcessor = new OptRouteProcessor();
-        RouteInfoVo[][] map = createRouteMap(locations);
-        return optRouteProcessor.calcOptRoute(map, locations.size());
+        RouteInfoVo[][] map = createRouteMap(coordinates);
+        int coordinatesNum = coordinates.size();
+
+        RouteInfoVo[][] optRoutes = optRouteProcessor.calcOptRoute(map, coordinatesNum);
+
+        return new RouteInfoDto(optRoutes, coordinates.size());
     }
 
 
