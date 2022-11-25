@@ -38,6 +38,8 @@ public class RouteInfoPerDuration extends RouteInfo {
     })
     private Location location;
 
+    private String name;
+
     @Column(name = "durationForNextPlace")
     Integer durationForNextPlace;
 
@@ -47,5 +49,6 @@ public class RouteInfoPerDuration extends RouteInfo {
         this.schedule = schedule;
         this.location = location;
         this.durationForNextPlace = durationForNextPlace;
+        this.name = location.getName();
     }
 }

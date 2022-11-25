@@ -13,6 +13,7 @@ import com.example.mapp.route.repository.RouteInfoPerDurationRepository;
 import com.example.mapp.route.repository.RouteInfoPerFareRepository;
 import com.example.mapp.route.vo.CoordinateVo;
 import com.example.mapp.schedule.model.Schedule;
+import com.example.mapp.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,12 +23,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class RouteInfoService {
 
+    private final ScheduleRepository scheduleRepository;
     private final RouteInfoPerFareRepository fareRepository;
     private final RouteInfoPerDurationRepository durationRepository;
     private final LocationRepository locationRepository;
 
     @Transactional
     public void addRouteInfosOnSchedule(Integer scheduleId, RouteInfoDto routeInfo) {
+        Schedule schedule = scheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> new IllegalStateException("스케줄 없음"));
+        StringBuilder locationsName = new StringBuilder();
+
         OptRoutePerDuration durationInfo = routeInfo.getDurationInfo();
         OptRoutePerFare fareInfo = routeInfo.getFareInfo();
 
@@ -50,14 +56,12 @@ public class RouteInfoService {
             LocationId duLocationId = new LocationId(durationCoord.getX(), durationCoord.getY());
             duLocation = Location.builder()
                     .id(duLocationId)
+                    .name(durationCoord.getName())
                     .build();
             LocationId faLocationId = new LocationId(fareCoord.getX(), fareCoord.getY());
             faLocation = Location.builder()
                     .id(faLocationId)
-                    .build();
-
-            Schedule schedule = Schedule.builder()
-                    .id(scheduleId)
+                    .name(fareCoord.getName())
                     .build();
 
             if (!locationRepository.existsById(duLocationId)) {
@@ -67,6 +71,9 @@ public class RouteInfoService {
             if (!locationRepository.existsById(faLocationId)) {
                 locationRepository.save(faLocation);
             }
+
+            locationsName.append(duLocation.getName());
+            locationsName.append(",");
 
             RouteInfoPerFare infoPerFare = RouteInfoPerFare.builder()
                     .id(new RouteInfoId(scheduleId, duLocationId))
@@ -88,5 +95,6 @@ public class RouteInfoService {
             fareRepository.save(infoPerFare);
             durationRepository.save(infoPerDuration);
         }
+        schedule.updateLocationsName(locationsName.toString());
     }
 }

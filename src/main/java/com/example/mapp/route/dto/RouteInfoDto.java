@@ -36,6 +36,7 @@ public class RouteInfoDto {
                 coordinates[i] = CoordinateVo.builder()
                         .x(from.getX())
                         .y(from.getY())
+                        .name(from.getName())
                         .build();
 
                 if (i == coordinateNum-2) {
@@ -43,6 +44,7 @@ public class RouteInfoDto {
                     coordinates[i+1] = CoordinateVo.builder()
                             .x(to.getX())
                             .y(to.getY())
+                            .name(to.getName())
                             .build();
                 }
             }
@@ -69,6 +71,7 @@ public class RouteInfoDto {
                 coordinates[i] = CoordinateVo.builder()
                         .x(from.getX())
                         .y(from.getY())
+                        .name(from.getName())
                         .build();
 
                 if (i == coordinateNum-2) {
@@ -76,6 +79,7 @@ public class RouteInfoDto {
                     coordinates[i+1] = CoordinateVo.builder()
                             .x(to.getX())
                             .y(to.getY())
+                            .name(to.getName())
                             .build();
                 }
             }

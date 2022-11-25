@@ -3,15 +3,16 @@ package com.example.mapp.schedule.service;
 import com.example.mapp.route.dto.RouteInfoDto;
 import com.example.mapp.route.dto.RouteInfoDto.OptRoutePerDuration;
 import com.example.mapp.route.dto.RouteInfoDto.OptRoutePerFare;
+import com.example.mapp.route.repository.RouteInfoPerDurationRepository;
 import com.example.mapp.route.service.NaverRouteService;
 import com.example.mapp.route.service.RouteInfoService;
 import com.example.mapp.route.vo.CoordinateVo;
+import com.example.mapp.schedule.dto.ScheduleResponseDto;
 import com.example.mapp.schedule.model.Schedule;
 import com.example.mapp.schedule.repository.ScheduleRepository;
 import com.example.mapp.user.model.AppUser;
 import com.example.mapp.user.repository.UserRepository;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,11 @@ public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
     private final UserRepository userRepository;
+
+    public List<ScheduleResponseDto> getAllMySchedule(String userId) {
+        List<Schedule> schedules = scheduleRepository.findAllByAppUser_Id(userId);
+        return ScheduleResponseDto.fromList(schedules);
+    }
 
     @Transactional
     public void addSchedule(String userId, List<CoordinateVo> coordinates) {

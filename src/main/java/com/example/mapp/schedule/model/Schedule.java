@@ -1,6 +1,8 @@
 package com.example.mapp.schedule.model;
 
+import com.example.mapp.route.model.RouteInfoPerDuration;
 import com.example.mapp.user.model.AppUser;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,6 +31,10 @@ public class Schedule {
     @Column(name = "totalFare")
     private Integer totalFare;
 
+    private Boolean sharedStatus = false;
+
+    private String locationsName;
+
     @Builder
     public Schedule(Integer id, AppUser appUser, String name, Integer totalDuration, Integer totalFare) {
         this.id = id;
@@ -44,5 +50,12 @@ public class Schedule {
 
     public void updateTotalFare(Integer totalFare) {
         this.totalFare = totalFare;
+    }
+
+    public void updateSharedStatus(boolean sharedStatus) {
+        this.sharedStatus = sharedStatus;
+    }
+    public void updateLocationsName(String locationsName) {
+        this.locationsName = locationsName;
     }
 }
