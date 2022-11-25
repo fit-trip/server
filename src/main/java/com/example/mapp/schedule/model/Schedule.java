@@ -1,5 +1,6 @@
 package com.example.mapp.schedule.model;
 
+import com.example.mapp.user.model.AppUser;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,22 +14,35 @@ import javax.persistence.*;
 public class Schedule {
     @Id
     @GeneratedValue
-    private String id;
+    private Integer id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId")
+    private AppUser appUser;
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "totalTime")
-    private Integer totalTime;
+    @Column(name = "totalDuration")
+    private Integer totalDuration;
 
-    @Column(name = "totalMoney")
-    private Integer totalMoney;
+    @Column(name = "totalFare")
+    private Integer totalFare;
 
     @Builder
-    public Schedule(String id, String name, Integer totalTime, Integer totalMoney) {
+    public Schedule(Integer id, AppUser appUser, String name, Integer totalDuration, Integer totalFare) {
         this.id = id;
+        this.appUser = appUser;
         this.name = name;
-        this.totalTime = totalTime;
-        this.totalMoney = totalMoney;
+        this.totalDuration = totalDuration;
+        this.totalFare = totalFare;
+    }
+
+    public void updateTotalDuration(Integer totalDuration) {
+        this.totalDuration = totalDuration;
+    }
+
+    public void updateTotalFare(Integer totalFare) {
+        this.totalFare = totalFare;
     }
 }

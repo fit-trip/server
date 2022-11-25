@@ -17,8 +17,8 @@ public class NaverRouteController {
 
     private final NaverRouteService naverRouteService;
 
-    @PostMapping
-    public RouteInfoVo[][] route(@RequestBody List<CoordinateVo> dto) {
-        return naverRouteService.route(dto);
-    }
+//    @PostMapping
+//    public void route(@RequestBody List<CoordinateVo> dto) {
+//        naverRouteService.route(dto);
+//    }
 }
