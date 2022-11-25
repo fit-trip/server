@@ -24,9 +24,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         String accessToken = request.getHeader("Authorization");
 
-        Authentication authenticate = jwtProvider
-                .authenticate(new UsernamePasswordAuthenticationToken(accessToken, ""));
-        SecurityContextHolder.getContext().setAuthentication(authenticate);
+        if (accessToken != null) {
+            Authentication authenticate = jwtProvider
+                    .authenticate(new UsernamePasswordAuthenticationToken(accessToken, ""));
+            SecurityContextHolder.getContext().setAuthentication(authenticate);
+        }
 
         filterChain.doFilter(request, response);
     }

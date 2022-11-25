@@ -6,6 +6,6 @@ import org.springframework.security.core.userdetails.User;
 
 public class AppUserDetails extends User {
     public AppUserDetails(AppUser user) {
-        super(user.getName(), user.getPassword(), AuthorityUtils.createAuthorityList(user.getRole().toString()));
+        super(user.getId(), user.getPassword(), AuthorityUtils.createAuthorityList(user.getRole().toString()));
     }
 }
