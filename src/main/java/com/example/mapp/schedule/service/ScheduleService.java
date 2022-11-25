@@ -8,7 +8,7 @@ import com.example.mapp.route.service.RouteInfoService;
 import com.example.mapp.route.vo.CoordinateVo;
 import com.example.mapp.schedule.model.Schedule;
 import com.example.mapp.schedule.repository.ScheduleRepository;
-import com.example.mapp.user.model.User;
+import com.example.mapp.user.model.AppUser;
 import com.example.mapp.user.repository.UserRepository;
 import java.util.List;
 import java.util.Optional;
@@ -28,15 +28,16 @@ public class ScheduleService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void addSchedule(Integer userId, List<CoordinateVo> coordinates) {
+    public void addSchedule(String userId, List<CoordinateVo> coordinates) {
         RouteInfoDto routeInfo = naverRouteService.route(coordinates);
         OptRoutePerDuration durationInfo = routeInfo.getDurationInfo();
         OptRoutePerFare fareInfo = routeInfo.getFareInfo();
 
-        Optional<User> byId = userRepository.findById(userId);
+        AppUser user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalStateException("아이디 없음"));
 
         Schedule schedule = Schedule.builder()
-                .user(byId.get())
+                .appUser(user)
                 .totalDuration(durationInfo.getTotalDuration())
                 .totalFare(fareInfo.getTotalFare())
                 .build();

@@ -1,6 +1,6 @@
 package com.example.mapp.schedule.model;
 
-import com.example.mapp.user.model.User;
+import com.example.mapp.user.model.AppUser;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +18,7 @@ public class Schedule {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
-    private User user;
+    private AppUser appUser;
 
     @Column(name = "name")
     private String name;
@@ -30,9 +30,9 @@ public class Schedule {
     private Integer totalFare;
 
     @Builder
-    public Schedule(Integer id, User user, String name, Integer totalDuration, Integer totalFare) {
+    public Schedule(Integer id, AppUser appUser, String name, Integer totalDuration, Integer totalFare) {
         this.id = id;
-        this.user = user;
+        this.appUser = appUser;
         this.name = name;
         this.totalDuration = totalDuration;
         this.totalFare = totalFare;

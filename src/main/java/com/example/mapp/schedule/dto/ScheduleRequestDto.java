@@ -6,6 +6,6 @@ import lombok.Data;
 
 @Data
 public class ScheduleRequestDto {
-    private Integer userId;
+    private String userId;
     private List<CoordinateVo> locations;
 }
