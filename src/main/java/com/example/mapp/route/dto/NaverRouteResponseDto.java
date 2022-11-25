@@ -16,14 +16,17 @@ public class NaverRouteResponseDto implements Serializable {
     private Integer fuelPrice; // 자가용으로 움직일 경우 연료비
 
     public Integer getCost(String norm) {
-        if (norm.equals("duration")) {
-            return this.duration;
-        }
-        else if (norm.equals("Fare")) {
-            return this.taxiFare + this.tollFare;
-        }
-        else {
-            return 0;
+        switch (norm) {
+            case "duration":
+                return this.duration;
+            case "fare":
+                return this.taxiFare + this.tollFare;
+            case "distance":
+                return this.distance;
+            case "fuelPrice":
+                return this.fuelPrice;
+            default:
+                return -1;
         }
     }
 }

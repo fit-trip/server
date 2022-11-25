@@ -9,7 +9,7 @@ import java.util.Arrays;
 @Component
 public class OptRouteProcessor {
     private static final int INF = Integer.MAX_VALUE;
-    static final String[] norms = {"Duration", "Fare"}; // 비용 정보를 계산하는 기준
+    static final String[] norms = {"duration", "fare"}; // 비용 정보를 계산하는 기준
 
     private int N;
     private RouteInfoVo[][] data; // data[i][j] = i번째 지점에서 j번째 지점으로 가는 route 정보
@@ -26,7 +26,8 @@ public class OptRouteProcessor {
         N = size;
         VISITED_ALL = (1 << size) - 1;
 
-        RouteInfoVo[][] resultRoute = new RouteInfoVo[norms.length][N]; // 결과 정보가 담길 배열
+        RouteInfoVo[][] circular_route = new RouteInfoVo[norms.length][N]; // TSP 결과 경로 정보가 담길 배열
+        RouteInfoVo[][] oneway_route = new RouteInfoVo[norms.length][N-1];
 
         // map을 data에 복사
         data = new RouteInfoVo[size][size];
@@ -49,17 +50,38 @@ public class OptRouteProcessor {
             path.add(0, 0); // 시작지점 추가
             path.add(0); // 왕복 경로이므로 끝에도 시작지점 추가
 
-            // 구한 최적 경로 리스트를 기반으로 resultRoute에 값 저장
+
+            // 구한 최적 경로 리스트를 기반으로 circular_route에 값 저장
+            int maxIdx = 0;
             for (int i = 0; i < N; i++) {
-                resultRoute[normIdx][i] = map[path.get(i)][path.get(i + 1)];
+                circular_route[normIdx][i] = map[path.get(i)][path.get(i + 1)];
+                // 리스트에 값 추가하면서 maxIdx 유지
+                if (circular_route[normIdx][maxIdx].getInfo().getCost(norms[normIdx]) < circular_route[normIdx][i].getInfo().getCost(norms[normIdx])) {
+                    maxIdx = i;
+                }
+            }
+
+
+            // maxIdx에 해당하는 경로는 지나지 않는 것으로 처리. maxIdx+1 번째 원소의 from 지점이 최적 경로의 출발 지점이 됨
+            for (int idx = 0; idx < N-1; ) {
+                for (int i = maxIdx + 1; i < N; i++) {
+                    oneway_route[normIdx][idx++] = circular_route[normIdx][i];
+                }
+                for (int i = 0; i < maxIdx; i++) {
+                    oneway_route[normIdx][idx++] = circular_route[normIdx][i];
+                }
+            }
+
+
+            // oneway_route 값 확인
+            for (int i = 0; i < N-1; i++) {
+                RouteInfoVo t =  oneway_route[normIdx][i];
+                System.out.println(t.getFrom() + " -> " + t.getTo() + " : " + t.getInfo().getCost(norms[normIdx]));
             }
         }
 
-
-        // resultRoute 반환
-        return resultRoute;
-
-        // TODO: 반환 형태 상의 후 수정
+        // 단방향 최적 경로 반환
+        return oneway_route;
 
     }
 
@@ -109,7 +131,6 @@ public class OptRouteProcessor {
                         masking += (1 << k);
                     }
                 }
-
             }
         }
 
