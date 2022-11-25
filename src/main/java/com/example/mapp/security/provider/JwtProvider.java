@@ -1,5 +1,6 @@
 package com.example.mapp.security.provider;
 
+import com.example.mapp.security.userdetails.AppUserDetailsService;
 import com.example.mapp.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -7,14 +8,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class JwtProvider implements AuthenticationProvider {
 
-    private final UserDetailsService userDetailsService;
+    private final AppUserDetailsService userDetailsService;
     private final JwtUtil jwtUtil;
 
     @Override
