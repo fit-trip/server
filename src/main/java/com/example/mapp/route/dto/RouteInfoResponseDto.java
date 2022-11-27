@@ -1,10 +1,8 @@
 package com.example.mapp.route.dto;
 
-import com.example.mapp.route.model.RouteInfo;
 import com.example.mapp.route.model.RouteInfoPerDuration;
 import com.example.mapp.route.model.RouteInfoPerFare;
 import com.example.mapp.route.vo.CoordinateVo;
-import com.example.mapp.route.vo.RouteInfoVo;
 import lombok.Data;
 
 import java.util.ArrayList;
