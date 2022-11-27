@@ -12,7 +12,7 @@ public class ScheduleResponseDto {
     private String name;
     private Integer totalDuration;
     private Integer totalFare;
-    private Boolean sharedStatus = false;
+    private Boolean sharedStatus;
     private List<String> locatiosnName;
 
     public ScheduleResponseDto(Schedule schedule) {
@@ -20,6 +20,7 @@ public class ScheduleResponseDto {
         this.name = schedule.getName();
         this.totalDuration = schedule.getTotalDuration();
         this.totalFare = schedule.getTotalFare();
+        this.sharedStatus = schedule.getSharedStatus();
         String[] locationsName = schedule.getLocationsName().split(",");
 
         this.locatiosnName = Arrays.stream(locationsName).collect(Collectors.toList());
