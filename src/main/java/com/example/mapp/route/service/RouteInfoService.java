@@ -3,6 +3,7 @@ package com.example.mapp.route.service;
 import com.example.mapp.route.dto.RouteInfoDto;
 import com.example.mapp.route.dto.RouteInfoDto.OptRoutePerDuration;
 import com.example.mapp.route.dto.RouteInfoDto.OptRoutePerFare;
+import com.example.mapp.route.dto.RouteInfoResponseDto;
 import com.example.mapp.route.model.Location;
 import com.example.mapp.route.model.RouteInfoPerDuration;
 import com.example.mapp.route.model.RouteInfoPerFare;
@@ -12,11 +13,15 @@ import com.example.mapp.route.repository.LocationRepository;
 import com.example.mapp.route.repository.RouteInfoPerDurationRepository;
 import com.example.mapp.route.repository.RouteInfoPerFareRepository;
 import com.example.mapp.route.vo.CoordinateVo;
+import com.example.mapp.route.vo.RouteInfoVo;
 import com.example.mapp.schedule.model.Schedule;
 import com.example.mapp.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +32,21 @@ public class RouteInfoService {
     private final RouteInfoPerFareRepository fareRepository;
     private final RouteInfoPerDurationRepository durationRepository;
     private final LocationRepository locationRepository;
+    private final ScheduleRepository scheduleRepository;
+
+    public RouteInfoResponseDto getRouteInfo(Integer scheduleId, String userId) {
+        Schedule schedule = scheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> new IllegalStateException("스케줄 없음"));
+
+        if (!Objects.equals(schedule.getAppUser().getId(), userId)) {
+            throw new IllegalStateException("사용자 정보 불일치");
+        }
+
+        List<RouteInfoPerDuration> duration = durationRepository.findAllByScheduleIdOrderByOrder(scheduleId);
+        List<RouteInfoPerFare> fare = fareRepository.findAllByScheduleIdOrderByOrder(scheduleId);
+
+        return new RouteInfoResponseDto(duration, fare);
+    }
 
     @Transactional
     public void addRouteInfosOnSchedule(Integer scheduleId, RouteInfoDto routeInfo) {
