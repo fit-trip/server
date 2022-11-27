@@ -13,7 +13,6 @@ import com.example.mapp.route.repository.LocationRepository;
 import com.example.mapp.route.repository.RouteInfoPerDurationRepository;
 import com.example.mapp.route.repository.RouteInfoPerFareRepository;
 import com.example.mapp.route.vo.CoordinateVo;
-import com.example.mapp.route.vo.RouteInfoVo;
 import com.example.mapp.schedule.model.Schedule;
 import com.example.mapp.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +31,6 @@ public class RouteInfoService {
     private final RouteInfoPerFareRepository fareRepository;
     private final RouteInfoPerDurationRepository durationRepository;
     private final LocationRepository locationRepository;
-    private final ScheduleRepository scheduleRepository;
 
     public RouteInfoResponseDto getRouteInfo(Integer scheduleId, String userId) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
