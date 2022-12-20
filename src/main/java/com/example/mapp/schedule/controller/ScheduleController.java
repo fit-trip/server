@@ -53,4 +53,10 @@ public class ScheduleController {
         String userId = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return scheduleService.getAllMySchedule(userId);
     }
+
+    @Operation(summary = "공유 일정 복사")
+    @PostMapping("/copy")
+    public void copySchedule(@RequestBody ScheduleRequestDto request) {
+        scheduleService.copySchedule(getUserIdFromSecurityContext(), request);
+    }
 }
