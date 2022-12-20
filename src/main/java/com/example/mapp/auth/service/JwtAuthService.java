@@ -31,6 +31,6 @@ public class JwtAuthService {
             throw new IllegalStateException("비밀번호 불일치");
         }
 
-        return new TokenDto(jwtUtil.generateAccessToken(id));
+        return new TokenDto(user.getName(), jwtUtil.generateAccessToken(id));
     }
 }

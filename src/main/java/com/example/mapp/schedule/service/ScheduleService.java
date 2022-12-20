@@ -91,7 +91,7 @@ public class ScheduleService {
                 .totalFare(sharedSchedule.getTotalFare())
                 .build();
 
-
+        newSchedule.updateLocationsName(sharedSchedule.getLocationsName());
         scheduleRepository.save(newSchedule);
     }
 }
