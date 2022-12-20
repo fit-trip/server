@@ -13,7 +13,7 @@ public class ScheduleResponseDto {
     private Integer totalDuration;
     private Integer totalFare;
     private Boolean sharedStatus;
-    private List<String> locatiosnName;
+    private List<String> locationsName;
 
     public ScheduleResponseDto(Schedule schedule) {
         this.id = schedule.getId();
@@ -23,7 +23,7 @@ public class ScheduleResponseDto {
         this.sharedStatus = schedule.getSharedStatus();
         String[] locationsName = schedule.getLocationsName().split(",");
 
-        this.locatiosnName = Arrays.stream(locationsName).collect(Collectors.toList());
+        this.locationsName = Arrays.stream(locationsName).collect(Collectors.toList());
     }
 
     public static List<ScheduleResponseDto> fromList(List<Schedule> schedules) {

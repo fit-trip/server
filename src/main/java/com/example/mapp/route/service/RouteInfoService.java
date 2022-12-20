@@ -94,14 +94,14 @@ public class RouteInfoService {
             locationsName.append(",");
 
             RouteInfoPerFare infoPerFare = RouteInfoPerFare.builder()
-                    .id(new RouteInfoId(scheduleId, duLocationId))
+                    .id(new RouteInfoId(scheduleId, faLocationId))
                     .fareForNextLocation(fareForNextLocation)
                     .schedule(schedule)
                     .location(faLocation)
                     .build();
 
             RouteInfoPerDuration infoPerDuration = RouteInfoPerDuration.builder()
-                    .id(new RouteInfoId(scheduleId, faLocationId))
+                    .id(new RouteInfoId(scheduleId, duLocationId))
                     .durationForNextPlace(durationForNextLocation)
                     .schedule(schedule)
                     .location(duLocation)

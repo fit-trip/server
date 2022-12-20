@@ -5,7 +5,7 @@ import com.example.mapp.route.dto.RouteInfoDto.OptRoutePerDuration;
 import com.example.mapp.route.dto.RouteInfoDto.OptRoutePerFare;
 import com.example.mapp.route.service.NaverRouteService;
 import com.example.mapp.route.service.RouteInfoService;
-import com.example.mapp.route.vo.CoordinateVo;
+import com.example.mapp.schedule.dto.ScheduleRequestDto;
 import com.example.mapp.schedule.dto.ScheduleResponseDto;
 import com.example.mapp.schedule.dto.ScheduleUpdateDto;
 import com.example.mapp.schedule.model.Schedule;
@@ -29,16 +29,17 @@ public class ScheduleService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void addSchedule(String userId, List<CoordinateVo> coordinates) {
-        RouteInfoDto routeInfo = naverRouteService.route(coordinates);
-        OptRoutePerDuration durationInfo = routeInfo.getDurationInfo();
-        OptRoutePerFare fareInfo = routeInfo.getFareInfo();
-
+    public void addSchedule(String userId, ScheduleRequestDto req) {
         AppUser user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalStateException("아이디 없음"));
 
+        RouteInfoDto routeInfo = naverRouteService.route(req.getLocations());
+        OptRoutePerDuration durationInfo = routeInfo.getDurationInfo();
+        OptRoutePerFare fareInfo = routeInfo.getFareInfo();
+
         Schedule schedule = Schedule.builder()
                 .appUser(user)
+                .name(req.getName())
                 .totalDuration(durationInfo.getTotalDuration())
                 .totalFare(fareInfo.getTotalFare())
                 .build();

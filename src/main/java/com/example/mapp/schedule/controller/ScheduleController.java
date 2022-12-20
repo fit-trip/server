@@ -27,7 +27,7 @@ public class ScheduleController {
     @Operation(summary = "일정 생성")
     @PostMapping
     public void createSchedule(@RequestBody ScheduleRequestDto request) {
-        scheduleService.addSchedule(getUserIdFromSecurityContext(), request.getLocations());
+        scheduleService.addSchedule(getUserIdFromSecurityContext(), request);
     }
 
     @Operation(summary = "일정 공유 상태 변경")
