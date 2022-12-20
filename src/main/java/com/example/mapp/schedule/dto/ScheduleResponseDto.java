@@ -10,6 +10,7 @@ import lombok.Data;
 public class ScheduleResponseDto {
     private Integer id;
     private String name;
+    private String ownerId;
     private Integer totalDuration;
     private Integer totalFare;
     private Boolean sharedStatus;
@@ -19,6 +20,7 @@ public class ScheduleResponseDto {
     public ScheduleResponseDto(Schedule schedule) {
         this.id = schedule.getId();
         this.name = schedule.getName();
+        this.ownerId = schedule.getAppUser().getId();
         this.totalDuration = schedule.getTotalDuration();
         this.totalFare = schedule.getTotalFare();
         this.sharedStatus = schedule.getSharedStatus();

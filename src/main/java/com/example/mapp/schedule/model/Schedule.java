@@ -65,4 +65,8 @@ public class Schedule {
     public void updateDescription(String description) {
         this.description = description;
     }
+
+    public void updateUserInfo(AppUser appUser) {
+        this.appUser = appUser;
+    }
 }
