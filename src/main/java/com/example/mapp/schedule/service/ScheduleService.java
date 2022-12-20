@@ -68,5 +68,10 @@ public class ScheduleService {
         }
 
         schedule.updateSharedStatus(dto.getSharedStatus());
+
+        // 스케줄 설명 저장
+        if (dto.getDescription() != null) {
+            schedule.updateDescription(dto.getDescription());
+        }
     }
 }

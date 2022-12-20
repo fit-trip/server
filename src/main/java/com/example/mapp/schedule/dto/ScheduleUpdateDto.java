@@ -7,4 +7,5 @@ public class ScheduleUpdateDto {
     private String userId;
     private Integer scheduleId;
     private Boolean sharedStatus;
+    private String description;
 }
