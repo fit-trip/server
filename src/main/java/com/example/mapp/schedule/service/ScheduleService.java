@@ -7,6 +7,7 @@ import com.example.mapp.route.dto.RouteInfoResponseDto;
 import com.example.mapp.route.model.RouteInfo;
 import com.example.mapp.route.model.RouteInfoPerDuration;
 import com.example.mapp.route.model.RouteInfoPerFare;
+import com.example.mapp.route.model.id.RouteInfoId;
 import com.example.mapp.route.repository.RouteInfoPerDurationRepository;
 import com.example.mapp.route.repository.RouteInfoPerFareRepository;
 import com.example.mapp.route.service.NaverRouteService;
@@ -109,6 +110,7 @@ public class ScheduleService {
 
         for (RouteInfoPerFare routeInfoPerFare : sharedRouteInfoPerFare) {
             RouteInfoPerFare newRouteInfoPerFare = RouteInfoPerFare.builder()
+                    .id(new RouteInfoId(newSchedule.getId(), routeInfoPerFare.getLocation().getId()))
                     .schedule(newSchedule)
                     .location(routeInfoPerFare.getLocation())
                     .fareForNextLocation(routeInfoPerFare.getFareForNextLocation())
@@ -120,6 +122,7 @@ public class ScheduleService {
 
         for (RouteInfoPerDuration routeInfoPerDuration : sharedRouteInfoPerDuration) {
             RouteInfoPerDuration newRouteInfoPerDuration = RouteInfoPerDuration.builder()
+                    .id(new RouteInfoId(newSchedule.getId(), routeInfoPerDuration.getLocation().getId()))
                     .schedule(newSchedule)
                     .location(routeInfoPerDuration.getLocation())
                     .durationForNextPlace(routeInfoPerDuration.getDurationForNextPlace())
