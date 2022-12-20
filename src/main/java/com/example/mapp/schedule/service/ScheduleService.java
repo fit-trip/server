@@ -3,6 +3,12 @@ package com.example.mapp.schedule.service;
 import com.example.mapp.route.dto.RouteInfoDto;
 import com.example.mapp.route.dto.RouteInfoDto.OptRoutePerDuration;
 import com.example.mapp.route.dto.RouteInfoDto.OptRoutePerFare;
+import com.example.mapp.route.dto.RouteInfoResponseDto;
+import com.example.mapp.route.model.RouteInfo;
+import com.example.mapp.route.model.RouteInfoPerDuration;
+import com.example.mapp.route.model.RouteInfoPerFare;
+import com.example.mapp.route.repository.RouteInfoPerDurationRepository;
+import com.example.mapp.route.repository.RouteInfoPerFareRepository;
 import com.example.mapp.route.service.NaverRouteService;
 import com.example.mapp.route.service.RouteInfoService;
 import com.example.mapp.schedule.dto.ScheduleCopyRequestDto;
@@ -28,6 +34,9 @@ public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
     private final UserRepository userRepository;
+
+    private final RouteInfoPerDurationRepository routeInfoPerDurationRepository;
+    private final RouteInfoPerFareRepository routeInfoPerFareRepository;
 
     @Transactional
     public void addSchedule(String userId, ScheduleRequestDto req) {
@@ -84,14 +93,38 @@ public class ScheduleService {
         AppUser user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalStateException("사용자 아이디 없음"));
 
+        List<RouteInfoPerFare> sharedRouteInfoPerFare = routeInfoPerFareRepository.findAllByScheduleIdOrderByOrder(dto.getScheduleId());
+        List<RouteInfoPerDuration> sharedRouteInfoPerDuration = routeInfoPerDurationRepository.findAllByScheduleIdOrderByOrder(dto.getScheduleId());
+
         Schedule newSchedule = Schedule.builder()
                 .appUser(user)
                 .name(sharedSchedule.getName())
                 .totalDuration(sharedSchedule.getTotalDuration())
                 .totalFare(sharedSchedule.getTotalFare())
                 .build();
-
-
         scheduleRepository.save(newSchedule);
+
+
+        for (RouteInfoPerFare routeInfoPerFare : sharedRouteInfoPerFare) {
+            RouteInfoPerFare newRouteInfoPerFare = RouteInfoPerFare.builder()
+                    .schedule(newSchedule)
+                    .location(routeInfoPerFare.getLocation())
+                    .fareForNextLocation(routeInfoPerFare.getFareForNextLocation())
+                    .build();
+            newRouteInfoPerFare.updateOrder(routeInfoPerFare.getOrder());
+
+            routeInfoPerFareRepository.save(newRouteInfoPerFare);
+        }
+
+        for (RouteInfoPerDuration routeInfoPerDuration : sharedRouteInfoPerDuration) {
+            RouteInfoPerDuration newRouteInfoPerDuration = RouteInfoPerDuration.builder()
+                    .schedule(newSchedule)
+                    .location(routeInfoPerDuration.getLocation())
+                    .durationForNextPlace(routeInfoPerDuration.getDurationForNextPlace())
+                    .build();
+            newRouteInfoPerDuration.updateOrder(routeInfoPerDuration.getOrder());
+
+            routeInfoPerDurationRepository.save(newRouteInfoPerDuration);
+        }
     }
 }
