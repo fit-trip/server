@@ -5,6 +5,7 @@ import com.example.mapp.route.dto.RouteInfoDto.OptRoutePerDuration;
 import com.example.mapp.route.dto.RouteInfoDto.OptRoutePerFare;
 import com.example.mapp.route.service.NaverRouteService;
 import com.example.mapp.route.service.RouteInfoService;
+import com.example.mapp.schedule.dto.ScheduleCopyRequestDto;
 import com.example.mapp.schedule.dto.ScheduleRequestDto;
 import com.example.mapp.schedule.dto.ScheduleResponseDto;
 import com.example.mapp.schedule.dto.ScheduleUpdateDto;
@@ -73,5 +74,24 @@ public class ScheduleService {
         if (dto.getDescription() != null) {
             schedule.updateDescription(dto.getDescription());
         }
+    }
+
+    @Transactional
+    public void copySchedule(String userId, ScheduleCopyRequestDto dto) {
+        Schedule sharedSchedule = scheduleRepository.findById(dto.getScheduleId())
+                .orElseThrow(() -> new IllegalStateException("스케줄 아이디 없음"));
+
+        AppUser user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalStateException("사용자 아이디 없음"));
+
+        Schedule newSchedule = Schedule.builder()
+                .appUser(user)
+                .name(sharedSchedule.getName())
+                .totalDuration(sharedSchedule.getTotalDuration())
+                .totalFare(sharedSchedule.getTotalFare())
+                .build();
+
+
+        scheduleRepository.save(newSchedule);
     }
 }

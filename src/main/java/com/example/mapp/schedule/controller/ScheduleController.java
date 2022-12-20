@@ -1,5 +1,6 @@
 package com.example.mapp.schedule.controller;
 
+import com.example.mapp.schedule.dto.ScheduleCopyRequestDto;
 import com.example.mapp.schedule.dto.ScheduleRequestDto;
 import com.example.mapp.schedule.dto.ScheduleResponseDto;
 import com.example.mapp.schedule.dto.ScheduleUpdateDto;
@@ -56,7 +57,8 @@ public class ScheduleController {
 
     @Operation(summary = "공유 일정 복사")
     @PostMapping("/copy")
-    public void copySchedule(@RequestBody ScheduleRequestDto request) {
-        scheduleService.copySchedule(getUserIdFromSecurityContext(), request);
+    public void copySchedule(@RequestBody ScheduleCopyRequestDto dto) {
+        String userId = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        scheduleService.copySchedule(userId, dto);
     }
 }
