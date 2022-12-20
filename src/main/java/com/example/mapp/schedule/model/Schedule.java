@@ -31,6 +31,9 @@ public class Schedule {
     @Column(name = "totalFare")
     private Integer totalFare;
 
+    @Column(name = "description")
+    private String description;
+
     private Boolean sharedStatus = false;
 
     private String locationsName;
@@ -57,5 +60,9 @@ public class Schedule {
     }
     public void updateLocationsName(String locationsName) {
         this.locationsName = locationsName;
+    }
+
+    public void updateDescription(String description) {
+        this.description = description;
     }
 }

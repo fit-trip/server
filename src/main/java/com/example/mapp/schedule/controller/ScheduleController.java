@@ -30,7 +30,7 @@ public class ScheduleController {
         scheduleService.addSchedule(getUserIdFromSecurityContext(), request);
     }
 
-    @Operation(summary = "일정 공유 상태 변경")
+    @Operation(summary = "일정 공유 상태 변경 (일정 설명 추가)")
     @PutMapping
     public void updateScheduleSharedStatus(@RequestBody ScheduleUpdateDto dto) {
         dto.setUserId(getUserIdFromSecurityContext());
